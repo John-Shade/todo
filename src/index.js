@@ -85,6 +85,7 @@ function TodoApp() {
 
   useEffect(() => {
     if (prevFilter) filter()
+    else setFilterData(dataState)
   }, [dataState])
 
   return (
