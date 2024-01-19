@@ -1,4 +1,3 @@
-// import React from 'react'
 import TasksFilter from '../tasks-filter/TasksFilter'
 import './Footer.css'
 

@@ -1,7 +1,7 @@
 .toggle-all {
 	width: 1px;
 	height: 1px;
-	border: none; /* Mobile Safari */
+	border: none;
 	opacity: 0;
 	position: absolute;
 	right: 100%;
@@ -28,4 +28,32 @@
 
 .toggle-all:checked + label:before {
 	color: #737373;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  /* border-bottom: 1px dotted black; */
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  border: 1px solid black;
+
+  background-color: white;
+  color: red;
+
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  font-size: 12px;
+
+  position: absolute;
+  left: 25px;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
 }

@@ -1,5 +1,4 @@
-// import React from 'react'
-import './NewTaskForm.css'
+import './NewTaskInput.css'
 
 function NewTaskForm({ onAdd }) {
   const addTask = (e) => {

@@ -4,8 +4,7 @@ import { formatDistanceToNow } from 'date-fns'
 
 function Task({ elProps, onDeleted, onEditTask, onDoneTask }) {
   const [buttonStateEdit, setButtonStateEdit] = useState(false)
-  const { label, done, date } = elProps
-
+  const { label, done, date, id } = elProps
   function className() {
     let classN = ''
     if (done) classN += ' completed'
@@ -29,17 +28,19 @@ function Task({ elProps, onDeleted, onEditTask, onDoneTask }) {
     <li className={className()}>
       {!buttonStateEdit && (
         <div className="view">
-          <input className="toggle" type="checkbox" id="first-name" onChange={() => onDoneTask(!done)} checked={done} />
-          <label htmlFor="first-name">
+          <input className="toggle" type="checkbox" id={id} onChange={() => onDoneTask(!done)} checked={done} />
+          <label htmlFor={id}>
             <span className="description">{label}</span>
             <span className="created">created {formatDistanceToNow(date)}</span>
           </label>
           <button
             type="button"
-            className="icon icon-edit"
+            className="icon icon-edit tooltip"
             aria-label="Редактировать"
             onClick={() => setButtonStateEdit(!done ? !buttonStateEdit : buttonStateEdit)}
-          />
+          >
+            {done && <span className="tooltiptext">Задание уже выполнено</span>}
+          </button>
           <button type="button" className="icon icon-destroy" aria-label="Удалить" onClick={onDeleted} />
         </div>
       )}
