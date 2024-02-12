@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import './App.css'
 
 import Footer from './components/footer'
@@ -7,29 +7,48 @@ import TaskList from './components/task-list'
 
 function TodoApp() {
   const data = [
-    { id: 1, label: 'Task 1', done: false, date: new Date() },
-    { id: 2, label: 'Task 2', done: true, date: new Date('August 13, 2024 14:15:30') },
-    { id: 3, label: 'Task 3', done: false, date: new Date('August 24, 2022 14:15:30') },
+    { id: 1, label: 'Task 1', done: false, date: new Date(), time: 220, play: false, dateStop: null },
+    {
+      id: 2,
+      label: 'Task 2',
+      done: true,
+      date: new Date('August 13, 2024 14:15:30'),
+      time: 240,
+      play: false,
+      dateStop: null,
+    },
+    {
+      id: 3,
+      label: 'Task 3',
+      done: false,
+      date: new Date('August 24, 2022 14:15:30'),
+      time: 3,
+      play: false,
+      dateStop: null,
+    },
   ]
 
   const [dataState, setDataState] = useState(data)
   const [filterData, setFilterData] = useState(dataState)
   const [prevFilter, setPrevFilter] = useState()
+  const dataRef = useRef()
 
   const deleteTask = (id) => {
     setDataState((dataS) => {
       const arr = dataS.filter((el) => el.id !== id)
       return arr
     })
-    console.log(dataState)
   }
 
   const addTask = (value) => {
     const task = {
       id: dataState.length > 0 ? dataState.slice(dataState.length - 1, dataState.length)[0].id + 1 : 1,
-      label: value,
+      label: value.text,
+      time: value.time,
       done: false,
       date: new Date(),
+      play: false,
+      dateStop: null,
     }
     setDataState(dataState.concat(task))
   }
@@ -50,6 +69,7 @@ function TodoApp() {
     const task = dataState.find((el) => el.id === id)
     const ind = dataState.findIndex((el) => el.id === id)
     task.done = condition
+    task.play = false
     const newArray = dataState.toSpliced(ind, 1, task)
     setDataState(newArray)
   }
@@ -57,6 +77,8 @@ function TodoApp() {
   const clearComplited = () => {
     const newArray = dataState.filter((el) => !el.done)
     setDataState(newArray)
+    console.log('clearComplited')
+    console.log(newArray)
   }
 
   const filter = (e = prevFilter) => {
@@ -79,18 +101,43 @@ function TodoApp() {
       }
     }
     setPrevFilter(e)
+    console.log(`filter ${filterData}`)
   }
 
   useEffect(() => {
-    if (prevFilter) filter()
-    else setFilterData(dataState)
+    if (prevFilter) {
+      filter()
+    } else {
+      setFilterData(dataState)
+    }
+    dataRef.current = dataState
   }, [dataState])
+
+  const timer = (id, play, time = undefined) => {
+    console.log(`time - ${time}`)
+    console.log(`play - ${play}`)
+    if (dataRef.current.length === dataState.length) {
+      const task = dataState.find((el) => el.id === id)
+      const ind = dataState.findIndex((el) => el.id === id)
+      task.time = time
+      task.play = play
+      task.dateStop = Date.now()
+      const newArray = dataState.toSpliced(ind, 1, task)
+      setDataState(newArray)
+    }
+  }
 
   return (
     <div className="todoapp">
       <h1>todos</h1>
       <NewTaskInput onAdd={addTask} />
-      <TaskList todos={filterData} onDeleted={deleteTask} onEditTask={editTask} onDoneTask={doneTask} />
+      <TaskList
+        todos={filterData}
+        onDeleted={deleteTask}
+        onEditTask={editTask}
+        onDoneTask={doneTask}
+        onChangeTimer={timer}
+      />
       <Footer todos={dataState} onClearComplited={clearComplited} onFilter={filter} />
     </div>
   )

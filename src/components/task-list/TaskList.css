@@ -89,7 +89,7 @@
 	text-decoration: line-through;
 }
 
-.todo-list li .icon {
+/* .todo-list li .icon {
 	position: absolute;
 	top: 0;
 	bottom: -3px;
@@ -100,7 +100,7 @@
 	margin: auto 0 11px;
 	transition: color 0.2s ease-out;
 	cursor: pointer;
-}
+} */
 
 .todo-list li .icon:hover {
 	color: #af5b5e;
