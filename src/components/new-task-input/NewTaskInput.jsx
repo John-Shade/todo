@@ -19,6 +19,9 @@ function NewTaskForm({ onAdd }) {
       time,
     }
     onAdd(data)
+    e.target.newTodo.value = ''
+    e.target.newTodoFormTimerMin.value = ''
+    e.target.newTodoFormTimerSec.value = ''
   }
 
   return (
