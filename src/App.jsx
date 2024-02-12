@@ -77,8 +77,6 @@ function TodoApp() {
   const clearComplited = () => {
     const newArray = dataState.filter((el) => !el.done)
     setDataState(newArray)
-    console.log('clearComplited')
-    console.log(newArray)
   }
 
   const filter = (e = prevFilter) => {
@@ -101,7 +99,6 @@ function TodoApp() {
       }
     }
     setPrevFilter(e)
-    console.log(`filter ${filterData}`)
   }
 
   useEffect(() => {
@@ -114,8 +111,6 @@ function TodoApp() {
   }, [dataState])
 
   const timer = (id, play, time = undefined) => {
-    console.log(`time - ${time}`)
-    console.log(`play - ${play}`)
     if (dataRef.current.length === dataState.length) {
       const task = dataState.find((el) => el.id === id)
       const ind = dataState.findIndex((el) => el.id === id)
